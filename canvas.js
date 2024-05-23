@@ -29,44 +29,80 @@ var c = canvas.getContext("2d");
 
 // arc
 
-var x = Math.random() * innerWidth;
-var y = Math.random() * innerHeight;
-var dx = (Math.random() - 0.5) * 10;
-var dy = (Math.random() - 0.5) * 10;
-var radius = 40;
+class Circle {
+  constructor(x, y, dx, dy, radius, color) {
+    this.x = x;
+    this.y = y;
+    this.dx = dx;
+    this.dy = dy;
+    this.radius = radius;
+    this.color = color;
+
+    this.draw = function () {
+      c.beginPath();
+      c.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+      c.strokeStyle = color;
+      c.lineWidth = 1;
+      c.stroke();
+    };
+
+    this.update = function () {
+      this.draw();
+      if (
+        this.x + this.radius > window.innerWidth ||
+        this.x - this.radius < 0
+      ) {
+        this.dx = -this.dx;
+      }
+      if (
+        this.y + this.radius > window.innerHeight ||
+        this.y - this.radius < 0
+      ) {
+        this.dy = -this.dy;
+      }
+      this.x += this.dx;
+      this.y += this.dy;
+    };
+  }
+}
+
+let circleArray = [];
+
+for (let i = 0; i < 100; i++) {
+  var x = Math.random() * (innerWidth - radius * 2) + radius;
+  var y = Math.random() * (innerHeight - radius * 2) + radius;
+  var dx = (Math.random() - 0.5) * 10;
+  var dy = (Math.random() - 0.5) * 10;
+  var radius = 40;
+
+  let circle = new Circle(x, y, dx, dy, radius, getRandomColor());
+  circleArray.push(circle);
+}
 
 const animate = () => {
   c.clearRect(0, 0, window.innerWidth, window.innerHeight);
   requestAnimationFrame(animate);
-  c.beginPath();
-  c.arc(x, y, radius, 0, Math.PI * 2);
-  c.strokeStyle = "red";
-  c.lineWidth = 1;
-  c.stroke();
-
-  if (x + radius > window.innerWidth || x - radius < 0) {
-    dx = -dx;
-  } 
-
-  if (y + radius > window.innerHeight || y - radius < 0) {
-    dy = -dy;
+  for (let circle of circleArray) {
+    circle.update();
   }
 
-
-  x += dx;
-  y += dy;
+  // c.beginPath();
+  // c.arc(x, y, radius, 0, Math.PI * 2);
+  // c.strokeStyle = "red";
+  // c.lineWidth = 1;
+  // c.stroke();
 };
 
 animate();
 
-// function getRandomColor() {
-//   var letters = "0123456789ABCDEF";
-//   var color = "#";
-//   for (var i = 0; i < 6; i++) {
-//     color += letters[Math.floor(Math.random() * 16)];
-//   }
-//   return color;
-// }
+function getRandomColor() {
+  var letters = "0123456789ABCDEF";
+  var color = "#";
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
 
 // for (let i = 1; i < 50; i++) {
 //     let x = Math.random() * window.innerWidth;
