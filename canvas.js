@@ -160,4 +160,20 @@ c2.moveTo(centerx - 98, centery - 25);
 c2.lineTo(centerx, centery - 250);
 c2.lineTo(centerx + 98, centery - 25);
 
+// draw left ear
+
+c2.moveTo(centerx - 98, centery - 25);
+c2.quadraticCurveTo(centerx - 120, centery - 10, centerx - 98, centery + 25);
+
+// draw draw right ear
+c2.moveTo(centerx + 98, centery - 25);
+c2.bezierCurveTo(
+  centerx + 120,
+  centery - 25,
+  centerx + 120,
+  centery + 25,
+  centerx + 98,
+  centery + 25
+);
+
 c2.stroke();
