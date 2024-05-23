@@ -1,9 +1,9 @@
-var canvas = document.querySelector("canvas");
+var canvas1 = document.getElementById("canvas1");
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+canvas1.width = window.innerWidth;
+canvas1.height = window.innerHeight;
 
-var c = canvas.getContext("2d");
+var c = canvas1.getContext("2d");
 
 const mouse = {
   x: undefined,
@@ -19,8 +19,8 @@ window.addEventListener("mousemove", (event) => {
 });
 
 window.addEventListener("resize", () => {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  canvas1.width = window.innerWidth;
+  canvas1.height = window.innerHeight;
   init();
 });
 
@@ -98,12 +98,6 @@ const animate = () => {
   for (let circle of circleArray) {
     circle.update();
   }
-
-  // c.beginPath();
-  // c.arc(x, y, radius, 0, Math.PI * 2);
-  // c.strokeStyle = "red";
-  // c.lineWidth = 1;
-  // c.stroke();
 };
 
 init();
@@ -117,3 +111,53 @@ function getRandomColor() {
   }
   return color;
 }
+
+// canvas 2
+
+let canvas2 = document.getElementById("canvas2");
+
+canvas2.height = window.innerHeight;
+canvas2.width = window.innerWidth;
+
+let c2 = canvas2.getContext("2d");
+
+const centerx = canvas2.width / 2;
+const centery = canvas2.height / 2;
+
+// draw the head
+
+c2.beginPath();
+c2.arc(centerx, centery, 100, 0, Math.PI * 2);
+
+// draw the mouth
+
+c2.moveTo(centerx + 50, centery + 20);
+
+c2.arc(centerx, centery + 20, 50, 0, Math.PI);
+
+// draw left eye
+
+c2.moveTo(centerx - 20, centery - 30);
+
+c2.arc(centerx - 30, centery - 30, 10, 0, Math.PI * 2);
+
+// draw right eye
+
+c2.moveTo(centerx + 40, centery - 30);
+
+c2.arc(centerx + 30, centery - 30, 10, 0, Math.PI * 2);
+
+// draw the nose
+
+c2.moveTo(centerx, centery);
+c2.lineTo(centerx + 10, centery + 20);
+c2.lineTo(centerx - 10, centery + 20);
+c2.lineTo(centerx, centery);
+
+// draw the hat
+
+c2.moveTo(centerx - 98, centery - 25);
+c2.lineTo(centerx, centery - 250);
+c2.lineTo(centerx + 98, centery - 25);
+
+c2.stroke();
