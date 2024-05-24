@@ -26,12 +26,17 @@ class Circle {
     };
 
     this.update = () => {
-      if (this.y + this.radius > canvas.height) {
+      if (this.y + this.radius + this.dy > canvas.height) {
         this.dy = -this.dy * friction;
       } else {
         this.dy += gravity;
       }
+
+      if (this.x - this.radius < 0 || this.x + this.radius > canvas.width) {
+        this.dx = -this.dx;
+      }
       this.y += this.dy;
+      this.x += this.dx;
       console.log(this.dy);
       this.draw();
     };
@@ -52,14 +57,20 @@ function getRandomColor() {
   }
   return color;
 }
+
+function randomIntFromRange(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
 const init = () => {
   circleArray = [];
+  let theRadius = 30;
   for (let i = 0; i < 300; i++) {
-    var x = Math.random() * (window.innerWidth - maxRadius * 2) + maxRadius;
-    var y = Math.random() * (window.innerHeight - maxRadius * 2) + maxRadius;
-    var dx = 1;
+    var x = randomIntFromRange(radius, canvas.width - theRadius);
+    var y = randomIntFromRange(0, canvas.height - theRadius);
+    var dx = randomIntFromRange(-2, 2);
     var dy = 1;
-    var radius = Math.random() * 30 + 1;
+    var radius = theRadius;
 
     let circle = new Circle(x, y, dx, dy, radius, getRandomColor());
     circleArray.push(circle);
