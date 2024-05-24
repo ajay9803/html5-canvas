@@ -80,7 +80,7 @@ let circleArray = [];
 
 const init = () => {
   circleArray = [];
-  for (let i = 0; i < 400; i++) {
+  for (let i = 0; i < 600; i++) {
     var x = Math.random() * (window.innerWidth - maxRadius * 2) + maxRadius;
     var y = Math.random() * (window.innerHeight - maxRadius * 2) + maxRadius;
     var dx = (Math.random() - 0.5) * 4;
@@ -166,14 +166,84 @@ c2.moveTo(centerx - 98, centery - 25);
 c2.quadraticCurveTo(centerx - 120, centery - 10, centerx - 98, centery + 25);
 
 // draw draw right ear
+// c2.moveTo(centerx + 98, centery - 25);
+// c2.bezierCurveTo(
+//   centerx + 120,
+//   centery - 25,
+//   centerx + 120,
+//   centery + 25,
+//   centerx + 98,
+//   centery + 25
+// );
+
 c2.moveTo(centerx + 98, centery - 25);
-c2.bezierCurveTo(
-  centerx + 120,
-  centery - 25,
-  centerx + 120,
-  centery + 25,
-  centerx + 98,
-  centery + 25
-);
+c2.quadraticCurveTo(centerx + 120, centery - 10, centerx + 98, centery + 25);
 
 c2.stroke();
+
+// canvas 3
+
+const canvas3 = document.getElementById("canvas3");
+canvas3.height = window.innerHeight;
+canvas3.width = window.innerWidth;
+const c3 = canvas3.getContext("2d");
+
+let player = {
+  x: centerx,
+  y: centery,
+  dx: 0,
+  dy: 0,
+  speed: 10,
+  w: 70,
+  h: 70,
+};
+
+const image = document.getElementById("source");
+
+const drawPlayer = () => {
+  c3.drawImage(image, player.x, player.y, player.w, player.h);
+};
+
+const moveUp = () => {
+  if (player.y > 0) {
+    player.y -= player.speed;
+  }
+};
+const moveDown = () => {
+  if (player.y + 70 < canvas3.height) {
+    player.y += player.speed;
+  }
+};
+
+const moveLeft = () => {
+  if (player.x > 0) {
+    player.x -= player.speed;
+  }
+};
+const moveRight = () => {
+  console.log(player.x);
+  if (player.x + 50 < canvas3.width) {
+    player.x += player.speed;
+  }
+};
+
+window.addEventListener("keydown", (event) => {
+  if (event.key === "ArrowRight") {
+    moveRight();
+  } else if (event.key === "ArrowLeft") {
+    moveLeft();
+  } else if (event.key === "ArrowUp") {
+    moveUp();
+  } else if (event.key === "ArrowDown") {
+    moveDown();
+  }
+  console.log(event);
+});
+
+const updatePlayerPosition = () => {
+  c3.clearRect(0, 0, window.innerWidth, window.innerHeight);
+  drawPlayer();
+  requestAnimationFrame(updatePlayerPosition);
+};
+
+updatePlayerPosition();
