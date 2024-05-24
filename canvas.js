@@ -92,6 +92,8 @@ const init = () => {
   }
 };
 
+
+
 const animate = () => {
   c.clearRect(0, 0, window.innerWidth, window.innerHeight);
   requestAnimationFrame(animate);
