@@ -61,7 +61,7 @@ const animate = () => {
   } else {
     bigCircle.color = 'purple';
   }
-
+  
   bigCircle.draw();
   smallCircle.draw();
 };
