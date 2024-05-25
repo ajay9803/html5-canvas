@@ -10,6 +10,24 @@ canvas.width = innerWidth - 6;
 
 let c = canvas.getContext("2d");
 
+// the platform
+class ThePlatform {
+  constructor(x, y, w, h, color) {
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
+    this.color = color;
+  }
+
+  // draw the platform
+  draw = () => {
+    c.beginPath();
+    c.fillStyle = this.color;
+    c.fillRect(this.x, this.y, this.w, this.h);
+  };
+}
+
 // the square
 class Square {
   constructor(x, y, w, h, dx, dy, color) {
@@ -31,6 +49,7 @@ class Square {
 
   // update square's position
   update = () => {
+    console.log(this.dy);
     this.draw();
     this.y += this.dy;
     this.x += this.dx;
@@ -42,16 +61,16 @@ class Square {
     }
 
     if (keys.left.pressed) {
-      this.dx = -10;
+      this.dx = -5;
     } else if (keys.right.pressed) {
-      this.dx = 10;
+      this.dx = 5;
     } else {
       this.dx = 0;
     }
   };
 }
 
-let theSquare = new Square(100, 100, 50, 50, 0, 0, "red");
+let theSquare = new Square(100, 300, 50, 50, 0, 0, "red");
 let keys = {
   right: {
     pressed: false,
@@ -61,12 +80,25 @@ let keys = {
   },
 };
 
+let platform = new ThePlatform(500, 200, 200, 20, "blue");
+
 // animate the square
 
 const animateSquare = () => {
   c.clearRect(0, 0, innerWidth, innerHeight);
   requestAnimationFrame(animateSquare);
+
+  platform.draw();
   theSquare.update();
+
+  if (
+    theSquare.y + theSquare.h <= platform.y &&
+    theSquare.y + theSquare.h + theSquare.dy >= platform.y &&
+    theSquare.x + theSquare.w >= platform.x &&
+    theSquare.x <= platform.x + platform.w
+  ) {
+    theSquare.dy = 0;
+  }
 };
 
 animateSquare();
@@ -108,3 +140,9 @@ addEventListener("keyup", ({ keyCode }) => {
       break;
   }
 });
+
+const getDistance = (x1, y1, x2, y2) => {
+  let xDistance = x2 - x1;
+  let yDistance = y2 - y1;
+  return Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
+};
