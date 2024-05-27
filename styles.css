@@ -1,0 +1,32 @@
+#main-div {
+    height: 400px;
+    width: 100%;
+    background-color: red;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: start;
+}
+
+#p1 {
+    background-color: blue;
+}
+
+#p2 {
+    background-color: aqua;
+}
+
+#p3 {
+    background-color: blueviolet;
+}
+
+#p4 {
+    background-color: yellow;
+    order: -2;
+}
+
+#p5 {
+    background-color: orange;
+    align-self: flex-end;
+    order: -1;
+}

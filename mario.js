@@ -59,14 +59,6 @@ class Square {
     } else {
       this.dy += 1;
     }
-
-    if (keys.left.pressed) {
-      this.dx = -5;
-    } else if (keys.right.pressed) {
-      this.dx = 5;
-    } else {
-      this.dx = 0;
-    }
   };
 }
 
@@ -79,26 +71,51 @@ let keys = {
     pressed: false,
   },
 };
+let platform = new ThePlatform(500, 400, 200, 20, "blue");
+let platform1 = new ThePlatform(700, 300, 200, 20, "blue");
+let platform2 = new ThePlatform(900, 200, 200, 20, "blue");
 
-let platform = new ThePlatform(500, 200, 200, 20, "blue");
+let platforms = [platform, platform1, platform2];
 
 // animate the square
 
 const animateSquare = () => {
+  console.log("animate");
   c.clearRect(0, 0, innerWidth, innerHeight);
   requestAnimationFrame(animateSquare);
 
-  platform.draw();
+  platforms.forEach((platform) => {
+    platform.draw();
+  });
   theSquare.update();
 
-  if (
-    theSquare.y + theSquare.h <= platform.y &&
-    theSquare.y + theSquare.h + theSquare.dy >= platform.y &&
-    theSquare.x + theSquare.w >= platform.x &&
-    theSquare.x <= platform.x + platform.w
-  ) {
-    theSquare.dy = 0;
+  if (keys.left.pressed && theSquare.x >= 100) {
+    theSquare.dx = -5;
+  } else if (keys.right.pressed && theSquare.x <= 400) {
+    theSquare.dx = 5;
+  } else {
+    if (keys.left.pressed) {
+      platforms.forEach((platform) => {
+        platform.x += 5;
+      });
+    } else if (keys.right.pressed) {
+      platforms.forEach((platform) => {
+        platform.x -= 5;
+      });
+    }
+    theSquare.dx = 0;
   }
+
+  platforms.forEach((platform) => {
+    if (
+      theSquare.y + theSquare.h <= platform.y &&
+      theSquare.y + theSquare.h + theSquare.dy >= platform.y &&
+      theSquare.x + theSquare.w >= platform.x &&
+      theSquare.x <= platform.x + platform.w
+    ) {
+      theSquare.dy = 0;
+    }
+  });
 };
 
 animateSquare();
